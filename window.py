@@ -1,4 +1,3 @@
-from textwrap import fill
 from tkinter import Tk, BOTH, Canvas
 from line import Line
 
@@ -12,6 +11,7 @@ class Window:
 
         # init root widget
         self.__root = Tk()
+        self.__root.minsize(self.width, self.height)
         self.__root.wm_title("Maze Solver")
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
 
