@@ -11,12 +11,12 @@ class Window:
 
         # init root widget
         self.__root = Tk()
-        self.__root.minsize(self.width, self.height)
+        self.__root.geometry(f"{width}x{height}")
         self.__root.wm_title("Maze Solver")
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
 
         # init canvas widget
-        self.__canvas = Canvas(self.__root)
+        self.__canvas = Canvas(self.__root, width=width, height=height)
         self.__canvas.pack()
 
         # tracking window is running
