@@ -2,6 +2,9 @@
 WIDTH = 800
 HEIGHT = 800
 
+# canvas
+BACKGROUND = "white"
+
 # line
 LINE_COLOR = "black"
 

@@ -1,5 +1,6 @@
 from tkinter import Tk, BOTH, Canvas
 from line import Line
+import constant
 
 
 class Window:
@@ -16,8 +17,10 @@ class Window:
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
 
         # init canvas widget
-        self.__canvas = Canvas(self.__root, width=width, height=height)
-        self.__canvas.pack()
+        self.__canvas = Canvas(
+            self.__root, bg=constant.BACKGROUND, width=width, height=height
+        )
+        self.__canvas.pack(fill=BOTH, expand=1)
 
         # tracking window is running
         self.isrunning = False

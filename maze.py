@@ -28,7 +28,7 @@ class Maze:
         assert isinstance(win, Window), f"win should be instance of Window"
         self.__win = win
 
-        self.__cells = [[] for i in range(num_rows)]
+        self.__cells = [[] for _ in range(num_rows)]
         self._create_cells()
 
     def _create_cells(self) -> None:
