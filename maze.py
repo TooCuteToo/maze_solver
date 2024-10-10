@@ -28,14 +28,14 @@ class Maze:
         assert isinstance(win, Window), f"win should be instance of Window"
         self.__win = win
 
-        self.__cells = [[] for _ in range(num_rows)]
+        self._cells = [[] for _ in range(num_rows)]
         self._create_cells()
 
     def _create_cells(self) -> None:
         for i in range(self.num_rows):
             for j in range(self.num_cols):
                 cell = self._draw_cell(i, j)
-                self.__cells[i].append(cell)
+                self._cells[i].append(cell)
 
     def _draw_cell(self, i, j) -> Cell:
         start_point = Point(
