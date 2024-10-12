@@ -34,10 +34,14 @@ class Maze:
     def _create_cells(self) -> None:
         for i in range(self.num_rows):
             for j in range(self.num_cols):
-                cell = self._draw_cell(i, j)
+                cell = self._create_cell(i, j)
                 self._cells[i].append(cell)
 
-    def _draw_cell(self, i, j) -> Cell:
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                self._draw_cell(i, j)
+
+    def _create_cell(self, i, j) -> Cell:
         start_point = Point(
             self.maze_start_point.x + j * self.cell_size_x,
             self.maze_start_point.y + i * self.cell_size_y,
@@ -47,10 +51,13 @@ class Maze:
             start_point.x + self.cell_size_x,
             start_point.y + self.cell_size_y,
         )
+
         cell = Cell(start_point, end_point, self.__win)
-        cell.draw()
-        self._animate()
         return cell
+
+    def _draw_cell(self, i, j) -> None:
+        self._cells[i][j].draw()
+        self._animate()
 
     def _animate(self) -> None:
         self.__win.redraw()
