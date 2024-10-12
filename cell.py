@@ -39,10 +39,16 @@ class Cell:
         if self.has_top_wall:
             line = Line(Point(self.__x1, self.__y1), Point(self.__x2, self.__y1))
             self.__win.draw_line(line, constant.CELL_COLOR)
+        else:
+            line = Line(Point(self.__x1, self.__y1), Point(self.__x2, self.__y1))
+            self.__win.draw_line(line, constant.CELL_REMOVE_COLOR)
 
         if self.has_bottom_wall:
             line = Line(Point(self.__x1, self.__y2), Point(self.__x2, self.__y2))
             self.__win.draw_line(line, constant.CELL_COLOR)
+        else:
+            line = Line(Point(self.__x1, self.__y2), Point(self.__x2, self.__y2))
+            self.__win.draw_line(line, constant.CELL_REMOVE_COLOR)
 
     def draw_move(self, to_cell, undo=False) -> None:
         assert isinstance(to_cell, Cell), f"to_cell should be instance of Cell"
