@@ -44,6 +44,7 @@ class Maze:
             random.seed(seed)
 
         self._break_walls_r(0, 0)
+        self._reset_cells_visited()
 
     def _create_cells(self) -> None:
         for i in range(self.num_rows):
@@ -113,7 +114,6 @@ class Maze:
             self._break_walls_r(next_idx[0], next_idx[1])
 
     def _break_wall(self, current_idx, next_idx) -> None:
-        print(f"current idx: {current_idx} -- next idx: {next_idx}")
         if current_idx[0] > next_idx[0]:
             self._cells[current_idx[0]][current_idx[1]].has_top_wall = False
             self._cells[next_idx[0]][next_idx[1]].has_bottom_wall = False
@@ -129,3 +129,73 @@ class Maze:
         if current_idx[1] < next_idx[1]:
             self._cells[current_idx[0]][current_idx[1]].has_right_wall = False
             self._cells[next_idx[0]][next_idx[1]].has_left_wall = False
+
+    def _reset_cells_visited(self) -> None:
+        assert self._cells != None, f"self._cells need to be init"
+        assert self.num_rows >= 0, f"self.num_rows should be positive"
+        assert self.num_cols >= 0, f"self.num_cols should be positive"
+
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                self._cells[i][j].visited = False
+
+    def solve(self) -> bool:
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                if self._solve_r(i, j):
+                    return True
+
+        return False
+
+    # this use the deep first search to solve the maze
+    def _solve_r(self, i, j) -> bool:
+        self._animate()
+        self._cells[i][j].visited = True
+
+        # this is a end cell
+        if i == self.num_rows - 1 and j == self.num_cols - 1:
+            return True
+
+        # Define the possible directions: up, down, left, right to check the adjecent
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+        # check each direction to find way
+        for di, dj in directions:
+            ni, nj = i + di, j + dj
+            if 0 <= ni < self.num_rows and 0 <= nj < self.num_cols:  # Check boundaries
+                if not self._cells[ni][nj].visited and not self._is_blocking(
+                    (di, dj), ni, nj
+                ):
+                    self._cells[i][j].draw_move(self._cells[ni][nj])
+
+                    if self._solve_r(ni, nj):
+                        return True
+
+                    self._cells[i][j].draw_move(self._cells[ni][nj], True)
+
+        return False
+
+    def _is_blocking(self, direction, ni, nj) -> bool:
+        ci = ni - direction[0]
+        cj = nj - direction[1]
+
+        current_cell = self._cells[ci][cj]
+        next_cell = self._cells[ni][nj]
+
+        if direction[0] == -1 and direction[1] == 0:
+            if not current_cell.has_top_wall and not next_cell.has_bottom_wall:
+                return False
+
+        if direction[0] == 1 and direction[1] == 0:
+            if not current_cell.has_bottom_wall and not next_cell.has_top_wall:
+                return False
+
+        if direction[0] == 0 and direction[1] == -1:
+            if not current_cell.has_left_wall and not next_cell.has_right_wall:
+                return False
+
+        if direction[0] == 0 and direction[1] == 1:
+            if not current_cell.has_right_wall and not next_cell.has_left_wall:
+                return False
+
+        return True

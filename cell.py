@@ -60,15 +60,18 @@ class Cell:
     def draw_move(self, to_cell, undo=False) -> None:
         assert isinstance(to_cell, Cell), f"to_cell should be instance of Cell"
         assert type(undo) == bool, f"undo should be boolean"
+        # center point of current cell
+        fpoint = self.calculate_center()
+
+        # center point of to cell
+        spoint = to_cell.calculate_center()
+
+        line = Line(Point(fpoint.x, fpoint.y), Point(spoint.x, spoint.y))
+
         if not undo:
-            # center point of current cell
-            fpoint = self.calculate_center()
-
-            # center point of to cell
-            spoint = to_cell.calculate_center()
-
-            line = Line(Point(fpoint.x, fpoint.y), Point(spoint.x, spoint.y))
             self.__win.draw_line(line, constant.CELL_MOVE_COLOR)
+        else:
+            self.__win.draw_line(line, constant.CELL_UNDO_MOVE_COLOR)
 
     def calculate_center(self) -> Point:
         x = (self.__x1 + self.__x2) / 2

@@ -9,7 +9,8 @@ import constant
 def main() -> None:
     win = Window(constant.WIDTH, constant.HEIGHT)
     assert isinstance(win, Window), f"win should be instance of Window"
-    maze = Maze(Point(10, 10), 10, 10, 50, 50, win, 10)
+    maze = Maze(Point(20, 20), 25, 25, 30, 30, win, 10)
+    maze.solve()
     win.wait_for_close()
 
 
